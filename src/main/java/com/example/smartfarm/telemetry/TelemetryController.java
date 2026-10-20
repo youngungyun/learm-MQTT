@@ -36,7 +36,7 @@ public class TelemetryController {
         return repository.findRecent(greenhouse, sensorType, limit);
     }
 
-    @GetMapping("/lastest")
+    @GetMapping("/latest")
     public Map<String, TelemetryRecord> lastest() {
         return repository.lastestByKey();
     }
