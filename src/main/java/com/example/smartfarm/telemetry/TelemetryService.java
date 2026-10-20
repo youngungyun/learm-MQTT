@@ -1,5 +1,6 @@
 package com.example.smartfarm.telemetry;
 
+import com.example.smartfarm.alert.AlertService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,14 @@ public class TelemetryService {
 
     private final JsonMapper jsonMapper;
     private final TelemetryRepository repository;
+    private final AlertService alertService;
 
     @Autowired
-    public TelemetryService(JsonMapper jsonMapper, TelemetryRepository repository) {
+    public TelemetryService(JsonMapper jsonMapper, TelemetryRepository repository,
+                            AlertService alertService) {
         this.jsonMapper = jsonMapper;
         this.repository = repository;
+        this.alertService = alertService;
     }
 
     public void handle(String topic, String payload, int qos) {
@@ -54,6 +58,7 @@ public class TelemetryService {
                 qos
         );
         repository.save(record);
+        alertService.evaluate(record);
         log.debug("저장 {} = {}{}", record.key(), reading.value(), reading.unit());
     }
 }
