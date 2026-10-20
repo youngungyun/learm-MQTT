@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: smartfarm
+
+server:
+  port: 8080
+
+mqtt:
+  broker-url: tcp://localhost:1883
+  client-id: smartfarm-server
+  username:
+  password:
+  default-qos: 1
+  subscribe-topics:
+    - farm/+/+/telemetry
+  clean-start: true
+  session-expiry-seconds: 0
+  keep-alive-seconds: 10
+  status-topic: farm/server/status
+
+smartfarm:
+  simulator:
+    enabled: false
+    interval-ms: 5000
+  alert:
+    temperature-max: 30.0
+    humidity-min: 40.0
+
+logging:
+  level:
+    com.example.smartfarm: DEBUG
